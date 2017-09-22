@@ -1,10 +1,9 @@
 <template>
   <div id="game">
-
-    <div class="red"></div>
-    <div class="blue"></div>
-    <div class="yellow"></div>
-    <div class="green"></div>
+    <div class="red" v-bind:class="{red_active: active.red === true}" v-on:click= "handleClick($event)"></div>
+    <div class="blue" v-bind:class="{blue_active: active.blue === true}" v-on:click="handleClick($event)"></div>
+    <div class="yellow" v-bind:class="{yellow_active: active.yellow === true}" v-on:click="handleClick($event)"></div>
+    <div class="green" v-bind:class="{green_active: active.green === true}" v-on:click="handleClick($event)"></div>
   </div>
 
 </template>
@@ -14,12 +13,24 @@ export default {
   name: 'SimonSays',
   data () {
     return {
+      active:{
+        red: false,
+      }
     }
   },
   computed: {
 
   },
   methods: {
+    handleClick(target) {
+    const self = this
+
+    Object.keys(self.active).forEach(key => {
+     if(target.currentTarget.className === key) {
+       self.active[key] = true
+      }
+     })
+    }
   }
 }
 </script>
@@ -69,5 +80,18 @@ export default {
   background-position:center center;
   background-repeat:no-repeat;
   background-color: #006400;
+}
+
+.red_active {
+  background-color: #FF0000;
+}
+.blue_active {
+  background-color: #1e90ff;
+}
+.green_active {
+  background-color: #32cd32;
+}
+.yellow_active {
+  background-color: #ffff00;
 }
 </style>
