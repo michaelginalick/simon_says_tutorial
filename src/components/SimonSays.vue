@@ -70,4 +70,17 @@ export default {
   background-repeat:no-repeat;
   background-color: #006400;
 }
+
+.red_active {
+  background-color: #FF0000;
+}
+.blue_active {
+  background-color: #1e90ff;
+}
+.green_active {
+  background-color: #32cd32;
+}
+.yellow_active {
+  background-color: #ffff00;
+}
 </style>
