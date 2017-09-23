@@ -15,12 +15,30 @@ export default {
     return {
       active:{
         red: false,
-      }
+        blue: false,
+        green: false,
+        yellow: false,
+      },
+
+      hexCodes: {
+        red: "#FF0000",
+        blue: "#1e90ff",
+        yellow: "#ffff00",
+        green: "#32cd32"
+      },
     }
   },
   computed: {
 
   },
+
+
+  created() {
+    const self = this
+    self.startGame()
+  },
+
+
   methods: {
     handleClick(target) {
     const self = this
@@ -30,6 +48,42 @@ export default {
        self.active[key] = true
       }
      })
+    },
+
+
+    startGame() {
+      const self = this
+      let i = 20
+
+      setTimeout(function() {
+        let redSquareHexCode = self.hexCodes.red
+
+        self.setElementToTrue(redSquareHexCode)
+        if (--i){
+          self.startGame(i--)
+        }
+      }, 3000)
+    },
+
+    setElementToTrue(redSquareHexCode) {
+      const self = this
+
+      Object.entries(self.hexCodes).forEach(key => {
+        if (key[1] == redSquareHexCode) {
+          self.active[key[0]] = true
+          self.toggleToFalse()
+        }
+      })
+    },
+
+    toggleToFalse(key) {
+      const self = this
+
+      setTimeout(function() {
+        Object.entries(self.active).forEach(key => {
+          self.active[key[0]] = false
+        })
+      }, 1000)
     }
   }
 }
