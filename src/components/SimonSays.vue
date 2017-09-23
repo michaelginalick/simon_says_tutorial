@@ -35,7 +35,8 @@ export default {
 
   created() {
     const self = this
-    self.startGame()
+    let i = 10
+    self.startGame(i)
   },
 
 
@@ -51,25 +52,31 @@ export default {
     },
 
 
-    startGame() {
+    startGame(i) {
       const self = this
-      let i = 20
 
       setTimeout(function() {
-        let redSquareHexCode = self.hexCodes.red
+        let randomHex = self.returnRandomHexCode()
 
-        self.setElementToTrue(redSquareHexCode)
+        self.setElementToTrue(randomHex)
         if (--i){
           self.startGame(i--)
         }
       }, 3000)
     },
 
-    setElementToTrue(redSquareHexCode) {
+    returnRandomHexCode() {
+      const self = this
+      let keys = Object.keys(self.hexCodes)
+
+      return self.hexCodes[keys[ keys.length * Math.random() << 0]]
+    },
+
+    setElementToTrue(randomHex) {
       const self = this
 
       Object.entries(self.hexCodes).forEach(key => {
-        if (key[1] == redSquareHexCode) {
+        if (key[1] == randomHex) {
           self.active[key[0]] = true
           self.toggleToFalse()
         }
