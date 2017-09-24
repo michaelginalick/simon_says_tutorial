@@ -29,10 +29,16 @@ export default {
 
       level: 0,
       round: 0,
+      colorSequence: [],
+      clickCount: 0
     }
   },
-  computed: {
 
+  computed: {
+    currentIndex() {
+      const self = this
+      return self.colorSequence[self.clickCount]
+    },
   },
 
 
@@ -70,6 +76,7 @@ export default {
       Object.entries(self.hexCodes).forEach(key => {
         if (key[1] == randomHex) {
           self.active[key[0]] = true
+          self.colorSequence.push(key[0])
           self.toggleToFalse()
         }
       })
@@ -88,12 +95,26 @@ export default {
     handleClick(target) {
       const self = this
 
+      if (target.currentTarget.className === self.currentIndex) {
+        self.highlight()
+        ++self.clickCount
+        if(self.clickCount === self.colorSequence.length) { self.next() }
+      } else {
+        // self.restart()
+      }
+    },
+
+    highlight() {
+      const self = this
+
       Object.keys(self.active).forEach(key => {
-       if(target.currentTarget.className === key) {
-         self.active[key] = true
+        if (self.currentIndex === key) {
+          self.active[key] = true
+          setTimeout(function() {
+            self.active[key] = false
+          },100)
         }
-      }),
-      self.next()
+      })
     },
 
     next() {
