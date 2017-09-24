@@ -1,5 +1,17 @@
 <template>
   <div id="game">
+
+
+  <!-- The Modal -->
+    <div id="myModal" class="modal"  v-bind:class="{hide_model: !showModal}"">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <p>Level {{ level+1 }} </p>
+         <input type="button" class="close" value="begin" v-on:click="hideModal()"">
+      </div>
+    </div>
+
+
     <div class="red" v-bind:class="{red_active: active.red === true}" v-on:click= "handleClick($event)"></div>
     <div class="blue" v-bind:class="{blue_active: active.blue === true}" v-on:click="handleClick($event)"></div>
     <div class="yellow" v-bind:class="{yellow_active: active.yellow === true}" v-on:click="handleClick($event)"></div>
@@ -30,7 +42,8 @@ export default {
       level: 0,
       round: 0,
       colorSequence: [],
-      clickCount: 0
+      clickCount: 0,
+      showModal: true,
     }
   },
 
@@ -41,14 +54,15 @@ export default {
     },
   },
 
-
-  created() {
-    const self = this
-    self.startGame()
-  },
-
-
   methods: {
+
+    hideModal() {
+      const self = this
+
+      ++self.round
+      self.showModal = false
+      self.startGame()
+    },
 
     startGame() {
       const self = this
@@ -120,9 +134,10 @@ export default {
     next() {
       const self = this
 
-      ++self.round
+      self.colorSequence = []
+      self.showModal = true
       self.level = self.round
-      self.startGame()
+      self.clickCount = 0
     }
   }
 }
@@ -187,4 +202,59 @@ export default {
 .yellow_active {
   background-color: #ffff00;
 }
+
+
+/* The Modal (background) */
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 15%; /* Could be more or less, depending on screen size */
+  display: block;
+  height: 40%;
+}
+.hide_model{
+  display: none;
+}
+/* The Close Button */
+.close {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+.close:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+
 </style>
