@@ -6,8 +6,9 @@
     <div id="myModal" class="modal"  v-bind:class="{hide_model: !showModal}"">
       <!-- Modal content -->
       <div class="modal-content">
-        <p>Level {{ level+1 }} </p>
+        <p>Level {{ level }} </p>
          <input type="button" class="close" value="begin" v-on:click="hideModal()"">
+          <p v-if=lose>Oops!</p>
       </div>
     </div>
 
@@ -39,11 +40,12 @@ export default {
         green: "#32cd32"
       },
 
-      level: 0,
-      round: 0,
+      level: 1,
+      round: 1,
       colorSequence: [],
       clickCount: 0,
       showModal: true,
+      lose: false,
     }
   },
 
@@ -71,8 +73,8 @@ export default {
         let randomHex = self.returnRandomHexCode()
 
         self.setElementToTrue(randomHex)
-        if (self.level){
-          self.startGame(self.level--)
+        if (--self.level){
+          self.startGame()
         }
       }, 3000)
     },
@@ -114,7 +116,7 @@ export default {
         ++self.clickCount
         if(self.clickCount === self.colorSequence.length) { self.next() }
       } else {
-        // self.restart()
+        self.restart()
       }
     },
 
@@ -138,7 +140,23 @@ export default {
       self.showModal = true
       self.level = self.round
       self.clickCount = 0
-    }
+    },
+
+     restart() {
+      const self = this
+
+      self.colorSequence = []
+      self.showModal = true
+      self.level = 1
+      self.round = 1
+      self.clickCount = 0
+      self.lose = true
+
+      setTimeout(function() {
+        self.lose = false
+        self.next()
+      }, 2000)
+    },
   }
 }
 </script>
