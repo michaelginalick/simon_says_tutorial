@@ -26,6 +26,9 @@ export default {
         yellow: "#ffff00",
         green: "#32cd32"
       },
+
+      level: 0,
+      round: 0,
     }
   },
   computed: {
@@ -35,32 +38,21 @@ export default {
 
   created() {
     const self = this
-    let i = 10
-    self.startGame(i)
+    self.startGame()
   },
 
 
   methods: {
-    handleClick(target) {
-    const self = this
 
-    Object.keys(self.active).forEach(key => {
-     if(target.currentTarget.className === key) {
-       self.active[key] = true
-      }
-     })
-    },
-
-
-    startGame(i) {
+    startGame() {
       const self = this
 
       setTimeout(function() {
         let randomHex = self.returnRandomHexCode()
 
         self.setElementToTrue(randomHex)
-        if (--i){
-          self.startGame(i--)
+        if (self.level){
+          self.startGame(self.level--)
         }
       }, 3000)
     },
@@ -91,6 +83,25 @@ export default {
           self.active[key[0]] = false
         })
       }, 1000)
+    },
+
+    handleClick(target) {
+      const self = this
+
+      Object.keys(self.active).forEach(key => {
+       if(target.currentTarget.className === key) {
+         self.active[key] = true
+        }
+      }),
+      self.next()
+    },
+
+    next() {
+      const self = this
+
+      ++self.round
+      self.level = self.round
+      self.startGame()
     }
   }
 }
