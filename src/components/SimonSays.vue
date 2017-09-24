@@ -35,7 +35,8 @@ export default {
 
   created() {
     const self = this
-    self.startGame()
+    let i = 10
+    self.startGame(i)
   },
 
 
@@ -51,9 +52,8 @@ export default {
     },
 
 
-    startGame() {
+    startGame(i) {
       const self = this
-      let i = 20
 
       setTimeout(function() {
         let randomHex = self.returnRandomHexCode()
